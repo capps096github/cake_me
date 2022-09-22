@@ -10,5 +10,13 @@ def splash(request):
 
 
 def shop(request):
-    template = loader.get_template("shop/shop.html")
-    return HttpResponse(template.render())
+    # context
+
+    ctx = {
+        "items_list": range(20),
+    }
+    template = loader.get_template("shop/shopx.html")
+
+    # Render the HTML template index.html with the data in the context variable
+    # return render(request, 'index.html', context=ctx)
+    return HttpResponse(template.render(ctx))

@@ -1,10 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block title %} <title>CakeMe | Love made edible</title> {% endblock %}
+
+    <!-- load static files -->
+    {% load static %}
+
+    <!-- CSS -->
+    <link href="{% static 'css/cake_me.css' %}" rel="stylesheet" />
+
+    <!-- JS -->
+    <script src="{% static 'js/cake_me.js' %}"></script>
+
+  </head>
+
+  <body>
+
+    <!-- site layout -->
+    <section class="flex flex-col justify-between h-screen">
+      <!-- nav bar -->
+      {% include 'components/navbar.html' %}
+
+      <!-- main -->
+      {% block content %}
+      <main></main>
+      {% endblock %}
+
+      {% block footer %}
+      {% include 'components/footer_light.html' %}
+      {% endblock %}
+
+    </section>
+    <!-- end layout -->
+  </body>
+
 </html>

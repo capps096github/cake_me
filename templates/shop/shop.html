@@ -46,10 +46,25 @@
               </svg>
 
               <!-- text -->
-              <span class="ml-2">Sponge</span>
+              <span class="ml-2">All</span>
             </a>
             <!-- end -->
 
+               <!-- Soda -->
+            <a onclick="goToHome()"
+              class="inline-flex items-center justify-center w-full px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-full hover:bg-white hover:text-cake-me-dark text-cake-me-light hover:cursor-pointer">
+              <!-- icon -->
+              <svg class="w-6 h-6 fill-current" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="m22 4.75c0-.206-.163-.75-.75-.75-.159 0-.305.071-.45.15-1.772.966-3.4 1.85-3.4 1.85v11.996s1.913 1.054 3.399 1.854c.146.079.292.15.451.15.583 0 .75-.533.75-.75zm-20 0c0-.206.163-.75.75-.75.159 0 .305.071.45.15 1.772.966 3.4 1.85 3.4 1.85v11.996s-1.913 1.054-3.399 1.854c-.146.079-.292.15-.451.15-.583 0-.75-.533-.75-.75zm14 2.25c0-.552-.448-1-1-1h-6c-.552 0-1 .448-1 1v10c0 .552.448 1 1 1h6c.552 0 1-.448 1-1z"
+                  fill-rule="nonzero" />
+              </svg>
+
+              <!-- text -->
+              <span class="ml-2">Sponge</span>
+            </a>
+            <!-- end -->
 
 
             <!-- Soda -->
@@ -104,12 +119,16 @@
           </div>
         </div>
 
-        <!-- items grid -->
+       <h2 class="mt-4 text-3xl font-bold text-center text-cake-me-dark">
+          Cakes
+        </h2>
 
+
+        <!-- items grid -->
         <div
           class="grid flex-row px-4 lg:px-0 lg:grid lg:flex-col lg:grid-cols-4 lg:gap-x-6 lg:gap-y-12 md:grid md:flex-col md:grid-cols-2 gap-x-6 gap-y-6 ">
 
-
+{% for i in items_list %}
           <!-- shoop ittem -->
           <article
             class="transition-all duration-300 rounded-lg bg-cake-me-dark text-cake-me-light hover:text-cake-me-dark hover:bg-cake-me-light">
@@ -174,6 +193,8 @@
             </div>
           </article>
           <!-- end of item -->
+
+{% endfor %}
 
         </div>
       </main>
