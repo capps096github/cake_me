@@ -1,6 +1,6 @@
 // ?Auto Splash Function
 function goToShop() {
   setTimeout(function () {
-    location.href = "shop";
+    location.href = "cakeme";
   }, 1000);
 }

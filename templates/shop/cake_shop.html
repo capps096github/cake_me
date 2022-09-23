@@ -11,7 +11,7 @@
 
   <!-- small heading showing drink categories text -->
   <h2 class="text-3xl font-bold text-center text-cake-me-dark">
-    Cake Categories
+    Cakex Categories
   </h2>
 
   <!-- categories -->
@@ -211,7 +211,11 @@
   {% else %}
 
   <h2 class="mt-4 text-3xl font-bold text-center text-cake-me-dark">
+  {% if not category or category == "all" %}
     No Cakes
+  {% else %}
+    No {{title}} Cakes
+  {% endif %}
   </h2>
 
   <svg class="mt-4" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" width="827.13" height="500.90726"

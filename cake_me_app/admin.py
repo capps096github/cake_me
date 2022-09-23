@@ -21,3 +21,9 @@ admin.site.register(OrderItem)
 # Username:  baker@cakeme
 # Email address:  baker@cakeme.cake
 # Password:  CakeMe@Baker096
+
+
+# Current superuser
+# Username:  cephas
+# Email address:  cephasx@gmail.com
+# Password:  Olga@Django096
