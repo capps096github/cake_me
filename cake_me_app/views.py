@@ -275,3 +275,44 @@ def search(request):
         return render(request, 'search/search_cakes.html', context=context)
     else:
         return render(request, 'search/search_cakes.html')
+
+
+# payment
+# https://django-payments.readthedocs.io/en/latest/usage.html
+
+
+# profile
+@login_required
+def profile(request):
+
+    if request.method == 'POST':
+        #  this gets the current user from the id and then updates their details
+        # get the current user
+        user = User.objects.get(id=request.user.id)
+
+        # get the username, first_name, last_name, email, password
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        last_name = request.POST['last_name']
+        first_name = request.POST['first_name']
+
+        # set the last_name and first_name of the user
+        user.username = username
+        user.email = email
+        user.password = password
+        user.last_name = last_name
+        user.first_name = first_name
+
+        # save the user
+        user.save()
+
+        # reload the user
+
+
+        # redirect to the profile page
+        return redirect('profile')
+        # return render(request, 'profile/profile.html')
+
+    else:
+        return render(request, 'profile/profile.html')

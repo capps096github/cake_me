@@ -14,8 +14,11 @@ urlpatterns = [
     # register
     path("register", views.register, name="register"),
 
-# search
+    # search
     path("search", views.search, name="search"),
+
+    # profile
+    path("profile", views.profile, name="profile"),
 
     # cart
     path("add/<int:cake_id>/", views.add_to_cart, name="cart_add"),

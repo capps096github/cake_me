@@ -79,10 +79,10 @@
     </a>
 
 
-    <!-- Score Settings -->
-    <a href="settings.html" class="inline-flex items-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-md text-cake-me-dark
+    <!-- Profile -->
+    <a href="{% url 'profile' %}" class="inline-flex items-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-md text-cake-me-dark
       
-      {% if request.resolver_match.url_name == 'settings' %} bg-cake-me-dark text-cake-me-white {% endif %}
+      {% if request.resolver_match.url_name == 'profile' %} bg-cake-me-dark text-cake-me-white {% endif %}
       hover:text-white hover:bg-cake-me-dark hover:cursor-pointer">
 
       <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current" width="24" height="24" viewBox="0 0 24 24">
