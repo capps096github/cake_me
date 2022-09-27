@@ -11,6 +11,12 @@ urlpatterns = [
     # a to z and A to Z regex
     re_path(r"^shop/(?:cakes=(?P<category>[a-zA-Z]+)/)?$", views.shop),
 
+    # register
+    path("register", views.register, name="register"),
+
+# search
+    path("search", views.search, name="search"),
+
     # cart
     path("add/<int:cake_id>/", views.add_to_cart, name="cart_add"),
     path("remove/<int:cake_id>/", views.remove_from_cart, name="cart_remove"),

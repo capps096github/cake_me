@@ -65,7 +65,7 @@
     </a>
 
     <!-- HOme -->
-    <a href="search.html" class="inline-flex items-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-md text-cake-me-dark 
+    <a href="{% url 'search' %}" class="inline-flex items-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-md text-cake-me-dark 
        
       {% if request.resolver_match.url_name == 'search' %} bg-cake-me-dark text-cake-me-white {% endif %}
       hover:text-white hover:bg-cake-me-dark hover:cursor-pointer">
@@ -93,10 +93,7 @@
       <span class="ml-2 font-bold underline lowercase">@{{user.username}}</span>
     </a>
 
-
-
-
-    <a href="login.html"
+    <a href="{% url 'logout' %}"
       class="inline-flex items-center px-5 py-2 text-sm font-semibold text-white uppercase transition-colors duration-300 rounded-md bg-cake-me-red hover:bg-cake-me-white hover:text-cake-me-red hover:cursor-pointer">
       <span>Log Out</span>
     </a>

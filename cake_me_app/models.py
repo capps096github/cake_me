@@ -2,31 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 
-# Create your models here.
-""" User Model with
-- username, email, password, telephone, gender
-- these fields are required and only email is unique
-- they should all have helper texts
-"""
-
-
-class CakeMeUser(models.Model):
-    # username
-    username = models.CharField(max_length=50, help_text='Enter your username')
-    # email
-    email = models.EmailField(
-        max_length=50, help_text='Enter your email', unique=True)
-    # password
-    password = models.CharField(max_length=50, help_text='Enter your password')
-    # telephone
-    telephone = models.CharField(
-        max_length=20, help_text='Enter your telephone')
-    # gender
-    gender = models.CharField(max_length=6, help_text='Enter your Gender')
-
-    def __str__(self):
-        return f"ID: {self.id} - Username: {self.username} - Email: {self.email} - Password: {self.password} - Tel: {self.telephone} - Gender: {self.gender}"
-
+from django.contrib.auth.models import User
 
 """ Cake Model with   
 - name, description, price, image_url, category
@@ -67,13 +43,13 @@ class Cake(models.Model):
 
 class OrderItem(models.Model):
     # cake_id
-    cake_id = models.ForeignKey(Cake, on_delete=models.CASCADE)
+    cake = models.ForeignKey(Cake, on_delete=models.CASCADE, default=1)
     # quantity
     quantity = models.IntegerField(
         help_text='Enter the quantity of the cake', default=0)
 
     def __str__(self):
-        return f"Cake ID: {self.cake_id} - Quantity: {self.quantity} "
+        return f"Cake ID: {self.cake} - Quantity: {self.quantity} "
 
 
 """ Order Model with
@@ -83,7 +59,7 @@ class OrderItem(models.Model):
 
 class Order(models.Model):
     # userId
-    user = models.ForeignKey(CakeMeUser, on_delete=models.CASCADE, default=1)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     # total_cost
     total_cost = models.FloatField(
         help_text='Enter the total cost of the order', default=0)
@@ -98,9 +74,8 @@ class Order(models.Model):
     def update_total_cost(self):
         self.total_cost = 0
         for item in self.order_items.all():
-            self.total_cost += item.cake_id.price * item.quantity
+            self.total_cost += item.cake.price * item.quantity
         self.save()
-
 
     def __str__(self):
         return f"User: {self.user.username} - Total Cost: {self.total_cost} - Date: {self.date}"

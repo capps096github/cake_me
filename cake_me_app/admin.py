@@ -1,11 +1,8 @@
 from django.contrib import admin
 
 # import the models from models.py
-from .models import Cake, Order, OrderItem, CakeMeUser
+from .models import Cake, Order, OrderItem
 
-
-# register the CakeMeUser model
-admin.site.register(CakeMeUser)
 
 # register the Cake model
 admin.site.register(Cake)
