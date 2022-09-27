@@ -14,11 +14,13 @@ class CakeMeUser(models.Model):
     # username
     username = models.CharField(max_length=50, help_text='Enter your username')
     # email
-    email = models.EmailField(max_length=50, help_text='Enter your email', unique=True)
+    email = models.EmailField(
+        max_length=50, help_text='Enter your email', unique=True)
     # password
     password = models.CharField(max_length=50, help_text='Enter your password')
     # telephone
-    telephone = models.CharField(max_length=20, help_text='Enter your telephone')
+    telephone = models.CharField(
+        max_length=20, help_text='Enter your telephone')
     # gender
     gender = models.CharField(max_length=6, help_text='Enter your Gender')
 
@@ -33,15 +35,18 @@ class CakeMeUser(models.Model):
 
 class Cake(models.Model):
     # name
-    name = models.CharField(max_length=50, help_text='Enter the name of the cake')
+    name = models.CharField(
+        max_length=50, help_text='Enter the name of the cake')
     # description
-    description = models.TextField(help_text='Enter the description of the cake')
+    description = models.TextField(
+        help_text='Enter the description of the cake')
     # price
     price = models.IntegerField(help_text='Enter the price of the cake')
     # image_url
     image_url = models.TextField(help_text='Enter the image url of the cake')
     # category
-    category = models.CharField(max_length=50, help_text='Enter the category of the cake', default="Sponge")
+    category = models.CharField(
+        max_length=50, help_text='Enter the category of the cake', default="Sponge")
 
     # we want to order our cakes by name, so we need to add a class Meta
     class Meta:
@@ -55,25 +60,6 @@ class Cake(models.Model):
         return f"Name: {self.name} - Description: {self.description} - Price: {self.price} - Image: {self.image_url} - Category: {self.category}"
 
 
-""" Order Model with
-- userId as foreign key, total_cost, date
-"""
-
-
-class Order(models.Model):
-    # userId
-    userId = models.ForeignKey(CakeMeUser, on_delete=models.CASCADE, default="1")
-    # total_cost
-    total_cost = models.FloatField(help_text='Enter the total cost of the order', default=0)
-    # date
-    date = models.DateField(help_text='Enter the date of the order', default=timezone.now)
-    # order_items list as OrderItem model many to many
-    order_items = models.ManyToManyField('OrderItem')
-
-    def __str__(self):
-        return f"User: {self.userId.username} - Total Cost: {self.total_cost} - Date: {self.date}"
-
-
 """ OrderItem Model with
 - cake_id(foreign key), quantity, order_id(foreign key)
 """
@@ -83,9 +69,38 @@ class OrderItem(models.Model):
     # cake_id
     cake_id = models.ForeignKey(Cake, on_delete=models.CASCADE)
     # quantity
-    quantity = models.IntegerField(help_text='Enter the quantity of the cake', default=0)
-    # order_id
-    order_id = models.ForeignKey(Order, on_delete=models.CASCADE, default=1)
+    quantity = models.IntegerField(
+        help_text='Enter the quantity of the cake', default=0)
 
     def __str__(self):
-        return f"Cake ID: {self.cake_id} - Quantity: {self.quantity} - Order ID: {self.order_id}"
+        return f"Cake ID: {self.cake_id} - Quantity: {self.quantity} "
+
+
+""" Order Model with
+- userId as foreign key, total_cost, date
+"""
+
+
+class Order(models.Model):
+    # userId
+    user = models.ForeignKey(CakeMeUser, on_delete=models.CASCADE, default=1)
+    # total_cost
+    total_cost = models.FloatField(
+        help_text='Enter the total cost of the order', default=0)
+    # date
+    date = models.DateField(
+        help_text='Enter the date of the order', default=timezone.now)
+    # order_items list as OrderItem model many to many
+    order_items = models.ManyToManyField(OrderItem)
+
+    # update the total cost of the order
+
+    def update_total_cost(self):
+        self.total_cost = 0
+        for item in self.order_items.all():
+            self.total_cost += item.cake_id.price * item.quantity
+        self.save()
+
+
+    def __str__(self):
+        return f"User: {self.user.username} - Total Cost: {self.total_cost} - Date: {self.date}"

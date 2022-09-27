@@ -12,7 +12,7 @@
 
     <!-- CSS -->
     <!-- <link href="{% static 'css/cake_me.css' %}" rel="stylesheet" /> -->
-    <link href="{% static 'css/cake_me_x.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/cake_me_y.css' %}" rel="stylesheet" />
 
     <!-- JS -->
     <script src="{% static 'js/cake_me.js' %}"></script>
@@ -24,7 +24,10 @@
     <!-- site layout -->
     <section class="flex flex-col justify-between h-screen">
       <!-- nav bar -->
+      {% block navbar %}
       {% include 'components/navbar.html' %}
+
+      {% endblock %}
 
       <!-- main -->
       {% block content %}

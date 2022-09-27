@@ -11,7 +11,7 @@
 
   <!-- small heading showing drink categories text -->
   <h2 class="text-3xl font-bold text-center text-cake-me-dark">
-    Cakex Categories
+    Cake Categories
   </h2>
 
   <!-- categories -->
@@ -41,7 +41,7 @@
       <!-- end -->
 
       <!-- Sponge -->
-      <a href="?cakes=sponge" class="inline-flex justify-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-full 
+      <a href="?cakes=sponge" class="inline-flex justify-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-full
     {% if category and  category == "sponge" %}
         bg-cake-me-light text-cake-me-dark
         {% else %}
@@ -63,7 +63,7 @@
       <!-- end -->
 
       <!-- Butter -->
-      <a href="?cakes=butter" class="inline-flex items-center justify-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-full hover:bg-white hover:text-cake-me-dark 
+      <a href="?cakes=butter" class="inline-flex items-center justify-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-full hover:bg-white hover:text-cake-me-dark
           {% if category and  category == "butter" %}
         bg-cake-me-light text-cake-me-dark
         {% else %}
@@ -84,7 +84,7 @@
       <!-- end -->
 
       <!-- Red-Velvet -->
-      <a href="?cakes=red-velvet" class="inline-flex items-center justify-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-full hover:bg-white hover:text-cake-me-dark 
+      <a href="?cakes=red-velvet" class="inline-flex items-center justify-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-full hover:bg-white hover:text-cake-me-dark
           {% if category and  category == "red-velvet" %}
         bg-cake-me-light text-cake-me-dark
         {% else %}
@@ -105,7 +105,7 @@
       <!-- end -->
 
       <!-- Biscuit -->
-      <a href="?cakes=biscuit" class="inline-flex items-center justify-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-full hover:bg-white hover:text-cake-me-dark 
+      <a href="?cakes=biscuit" class="inline-flex items-center justify-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-full hover:bg-white hover:text-cake-me-dark
           {% if category and  category == "biscuit" %}
         bg-cake-me-light text-cake-me-dark
         {% else %}
@@ -132,7 +132,7 @@
   <!-- check if cake_items is empty  in django -->
   {% if cake_items %}
   <h2 class="mt-4 text-3xl font-bold text-center text-cake-me-dark">
-    {{title}} Cakes
+    {{ title }} Cakes
   </h2>
 
   <!-- items grid -->
@@ -148,58 +148,57 @@
       <div class="flex flex-col">
         <div class="relative flex-shrink-0 block group">
           <div class="overflow-hidden rounded shadow group-hover:shadow-lg">
-            <a class="block" href="details.html">
-              <img src="{{cake.image_url}}" alt="Hot Milk Cake"
+            <a class="block" href="{% url 'details' cake.id %}">
+              <img src="{{ cake.image_url }}" alt="Hot Milk Cake"
                 class="object-cover w-full h-48 transition-all group-hover:scale-105" />
             </a>
 
-            <div role="button"
-              class="absolute top-0 right-0 flex items-center justify-center w-12 h-12 transition-all duration-300 rounded-tr rounded-bl bg-cake-me-dark text-cake-me-light hover:text-cake-me-dark hover:bg-cake-me-light "
-              title="Add to Cart">
-              <!-- {
-                      if (user.data) {
-                      if (inCart) {
-                      removeFromCart(product);
-                      } else {
-                      addToCart(product);
-                      }
-                      } else {
-                      navigate('/signin');
-                      }
-                      }}
-                      
-                    
-                      {inCart ? (
-                      <XIcon class="w-6 h-6 text-red-400" />
-                      ) : (
-                      <ShoppingCartIcon class="w-6 h-6 text-green-400" />
-                      )} -->
+            <!-- check if the cake id exists in cake_ids then it is in cart so that we display the remove button -->
+            {% if cake.id in cake_ids %}
+            <a href="{% url 'cart_remove' cake.id %}" title="Remove from Cart">
+              <div role="button"
+                class="absolute top-0 right-0 flex items-center justify-center w-12 h-12 transition-all duration-300 rounded-tr rounded-bl bg-cake-me-red text-cake-me-white hover:text-cake-me-red hover:bg-cake-me-white "
+                title="Remove from Cart">
+                <svg class="w-6 h-6 fill-current" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                  stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="m12 10.93 5.719-5.72c.146-.146.339-.219.531-.219.404 0 .75.324.75.749 0 .193-.073.385-.219.532l-5.72 5.719 5.719 5.719c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.385-.073-.531-.219l-5.719-5.719-5.719 5.719c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l5.719-5.719-5.72-5.719c-.146-.147-.219-.339-.219-.532 0-.425.346-.749.75-.749.192 0 .385.073.531.219z" />
+                </svg>
+              </div>
+            </a>
 
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current" width="24" height="24"
-                viewBox="0 0 24 24">
-                <path
-                  d="M10 19.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5zm9.804-16.5l-3.431 12h-2.102l2.542-9h-5.993c.113.482.18.983.18 1.5 0 3.59-2.91 6.5-6.5 6.5-.407 0-.805-.042-1.191-.114l1.306 3.114h13.239l3.474-12h1.929l.743-2h-4.196zm-6.304 15c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm-4.5-10.5c0 2.485-2.018 4.5-4.5 4.5-2.484 0-4.5-2.015-4.5-4.5s2.016-4.5 4.5-4.5c2.482 0 4.5 2.015 4.5 4.5zm-2-.5h-2v-2h-1v2h-2v1h2v2h1v-2h2v-1z" />
-              </svg>
+            {% else %}
+            <a href="{% url 'cart_add' cake.id %}" title="Add to Cart">
+              <div role="button" class="absolute top-0 right-0 flex items-center justify-center w-12 h-12 transition-all duration-300 rounded-tr rounded-bl
+                 bg-cake-me-dark text-cake-me-light hover:text-cake-me-dark hover:bg-cake-me-light "
+                title="Add to Cart">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current" width="24" height="24"
+                  viewBox="0 0 24 24">
+                  <path
+                    d="M10 19.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5zm9.804-16.5l-3.431 12h-2.102l2.542-9h-5.993c.113.482.18.983.18 1.5 0 3.59-2.91 6.5-6.5 6.5-.407 0-.805-.042-1.191-.114l1.306 3.114h13.239l3.474-12h1.929l.743-2h-4.196zm-6.304 15c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm-4.5-10.5c0 2.485-2.018 4.5-4.5 4.5-2.484 0-4.5-2.015-4.5-4.5s2.016-4.5 4.5-4.5c2.482 0 4.5 2.015 4.5 4.5zm-2-.5h-2v-2h-1v2h-2v1h2v2h1v-2h2v-1z" />
+                </svg>
+              </div>
+            </a>
+            {% endif %}
+
+          </div>
 
 
+          <!-- texts -->
+          <div class="flex flex-col m-6 text-center">
+            <div class="pb-4 border-b-2 border-current">
+              <h2 class="flex-grow text-2xl truncate">
+                <a class="font-bold tracking-wide text-current">
+                  {{ cake.name }}
+                </a>
+              </h2>
+
+              <h3 class="flex-grow mt-2 text-xl font-medium text-current">
+                UGX {{ cake.price |intcomma }} </h3>
             </div>
+            <p class="flex-grow mt-4 text-sm text-current">{{ cake.description |truncatewords:"20" }}</p>
           </div>
         </div>
-
-        <!-- texts -->
-        <div class="flex flex-col m-6 text-center">
-          <div class="pb-4 border-b-2 border-current">
-            <h2 class="flex-grow text-2xl truncate">
-              <a class="font-bold tracking-wide text-current">
-                {{cake.name}}
-              </a>
-            </h2>
-
-            <h3 class="flex-grow mt-2 text-xl font-medium text-current">UGX {{cake.price |intcomma}} </h3>
-          </div>
-          <p class="flex-grow mt-4 text-sm text-current">{{cake.description |truncatewords:"20"}}</p>
-        </div>
-      </div>
     </article>
     <!-- end of item -->
 
@@ -211,11 +210,7 @@
   {% else %}
 
   <h2 class="mt-4 text-3xl font-bold text-center text-cake-me-dark">
-  {% if not category or category == "all" %}
     No Cakes
-  {% else %}
-    No {{title}} Cakes
-  {% endif %}
   </h2>
 
   <svg class="mt-4" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" width="827.13" height="500.90726"
