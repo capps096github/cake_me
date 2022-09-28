@@ -319,3 +319,8 @@ def profile(request):
 
     else:
         return render(request, 'profile/profile.html')
+
+
+# check_out
+def check_out(request):
+    return render(request, 'check_out/check_out.html')

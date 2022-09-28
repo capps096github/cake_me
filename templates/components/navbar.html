@@ -51,7 +51,7 @@
     </a>
 
     <!-- Cart -->
-    <a href="check_out.html" class="inline-flex items-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-md text-cake-me-dark 
+    <a href="{% url 'check_out' %}" class="inline-flex items-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-md text-cake-me-dark 
       
       {% if request.resolver_match.url_name == 'check_out' %} bg-cake-me-dark text-cake-me-white {% endif %}
       hover:text-white hover:bg-cake-me-dark hover:cursor-pointer">
