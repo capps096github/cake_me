@@ -50,15 +50,12 @@
       <span class="ml-2">Shop</span>
     </a>
 
-<<<<<<< Updated upstream
     <!-- Cart -->
     <a href="{% url 'check_out' %}" class="inline-flex items-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-md text-cake-me-dark 
-=======
 
     {%if request.user.is_superuser%}
     <!-- Customers -->
     <a href="{% url 'users' %}" class="inline-flex items-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-md text-cake-me-dark 
->>>>>>> Stashed changes
       
       {% if request.resolver_match.url_name == 'users' %} bg-cake-me-dark text-cake-me-white {% endif %}
       hover:text-white hover:bg-cake-me-dark hover:cursor-pointer">

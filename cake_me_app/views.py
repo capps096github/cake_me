@@ -317,7 +317,6 @@ def profile(request):
         return render(request, 'profile/profile.html')
 
 
-<<<<<<< Updated upstream
 # check_out
 def check_out(request):
     return render(request, 'check_out/check_out.html')
@@ -337,7 +336,6 @@ def cakes(request):
         return redirect('shop')
     else:
         return render(request,'cakes/cakes.html')
-=======
 # users
 # To see this,you must have logged in and you must be a superuser
 @login_required
@@ -361,4 +359,3 @@ def users(request):
     else:
         # keep user on the current page
         return redirect(request.META.get("HTTP_REFERER"))
->>>>>>> Stashed changes
