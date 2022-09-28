@@ -284,7 +284,6 @@ def search(request):
 # profile
 @login_required
 def profile(request):
-
     if request.method == 'POST':
         #  this gets the current user from the id and then updates their details
         # get the current user
@@ -312,7 +311,6 @@ def profile(request):
 
         # reload the user
 
-
         # redirect to the profile page
         return redirect('profile')
         # return render(request, 'profile/profile.html')
@@ -322,42 +320,55 @@ def profile(request):
 
 
 # check_out
+@login_required
 def check_out(request):
     return render(request, 'check_out/check_out.html')
 
-def cakes(request):
-    if request.method=='POST':
-        cake_name=request.POST['name']
-        image_url=request.POST['url']
-        description=request.POST['description']
-        price=request.POST['price']
-        category=request.POST['category']
-        
-        # cake = Cake.objects.create_user(cake_name, image_url, description, price, category)
-        # cake.save()
 
-        
-        Cake(name=cake_name,image_url=image_url,description=description,price=price,category=category).save()
+@login_required
+def add_cakes(request):
+    if request.method == 'POST':
+        cake_name = request.POST['name']
+        image_url = request.POST['url']
+        description = request.POST['description']
+        price = request.POST['price']
+        category = request.POST['category']
 
-        return redirect('shop')
+        # create a new cake
+        Cake(name=cake_name, image_url=image_url, description=description,
+             price=price, category=category).save()
+
+        return redirect('add_cakes')
     else:
-        return render(request,'cakes/cakes.html')
+        return render(request, 'shop/add_cakes.html')
+
+# delete cakes and return to the shop screen
+@login_required
+def delete_cake(request, cake_id):
+    # get the cake object
+    cake = Cake.objects.get(id=cake_id)
+
+    # delete the cake
+    cake.delete()
+
+    # redirect to the shop page
+    return redirect('shop')
+
 # users
 # To see this,you must have logged in and you must be a superuser
 @login_required
 def users(request):
-
-    # is super user
+    # is superuser
     is_super_user = request.user.is_superuser
 
-    # check if the user is a super user and if they are, show the users page else keep them on the page they were
+    # check if the user is a superuser and if they are, show the users page else keep them on the page they were
     if is_super_user:
         # get users from database
-        users = User.objects.all()
+        cakeme_users = User.objects.all()
 
-        # passing users to the context
+        # passing cakeme_users to the context
         context = {
-            'users': users,
+            'cakeme_users': cakeme_users,
         }
 
         # render users page and pass in the context
@@ -365,10 +376,3 @@ def users(request):
     else:
         # keep user on the current page
         return redirect(request.META.get("HTTP_REFERER"))
-    
-# send quatity to database from the check_out page after inputing the quantity
-def send_quantity(request):
-    if request.method == 'POST':
-        quantity = request.POST['quantity']
-        OrderItem(quantity=quantity).save()
-        

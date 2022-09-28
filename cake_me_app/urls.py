@@ -23,17 +23,24 @@ urlpatterns = [
     # Users
     path("users", views.users, name="users"),
 
+    # add_cakes
+    path("add_cakes", views.add_cakes, name="add_cakes"),
+
+    # delete cake
+    path("delete_cake/<int:cake_id>", views.delete_cake, name="delete_cake"),
+
+
     # cart
     path("add/<int:cake_id>/", views.add_to_cart, name="cart_add"),
     path("remove/<int:cake_id>/", views.remove_from_cart, name="cart_remove"),
     path("details/<int:cake_id>/", views.details, name="details"),
-    
+
     # check_out
     path("check_out", views.check_out, name="check_out"),
 
-    #adding cakes to the db
-    path('cakes/',views.cakes, name='cakes'), 
-    
+    # adding cakes to the db
+    path('cakes/', views.add_cakes, name='cakes'),
+
 ]
 
 

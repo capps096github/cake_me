@@ -1,0 +1,134 @@
+{% extends "cake_me.html" %}
+
+{% load humanize %}
+
+{% block title %} <title>CakeMe Shop | Love made edible</title> {% endblock %}
+
+<!-- main -->
+{% block content %}
+<!-- main -->
+<main class="max-w-4xl px-4 mx-auto mt-10 mb-4 sm:max-w-4xl sm:px-6 ">
+  <div class="items-center text-center transition-colors duration-500 sm:text-center text-cake-me-dark ">
+
+    <h2 class="mx-auto mt-10 text-3xl font-bold tracking-tight text-cake-me-dark sm:text-3xl md:text-4xl">
+      Add a new cake below
+    </h2>
+
+  </div>
+
+    <!-- login error widget -->
+    {% if form.errors %}
+    <div
+      class="flex flex-col items-center w-full p-4 mx-auto mt-4 text-2xl text-center rounded-lg text-cake-me-white bg-cake-me-red">
+    
+      <h2 class="text-2xl font-bold tracking-tight underline">
+        Error Adding new Cake due to the following: {{form.errors}}
+      </h2>
+    
+      <p class="mx-auto mt-4 text-xl font-medium tracking-tight">
+        Please try again.
+      </p>
+    </div>
+    {% endif%}
+
+  <!-- Form div -->
+  <div class="items-center justify-center mt-10">
+    <div class="max-w-xl mx-auto">
+      <form class="space-y-6" method="POST" action="">
+        {% csrf_token %}
+        <!-- Name-->
+        <label class="block mt-4">
+          <span class="block text-sm font-medium text-cake-me-dark">Cake name</span>
+          <!-- Using form state modifers, the classes can be identical for every input -->
+          <input type="text" name="name" id="name" autocomplete="name" placeholder="Enter the cake's name"
+            class="w-full px-3 py-2 mt-1 text-sm bg-white border rounded-md shadow-sm placeholder-cake-me-dark/50 border-cake-me-dark text-cake-me-dark focus:outline-none focus:border-cake-me-dark focus:ring-1 focus:ring-cake-me-dark hover:bg-cake-me-light/10"
+            required />
+        </label>
+
+        <!-- Image url -->
+        <label class="block mt-4">
+          <span class="block text-sm font-medium text-cake-me-dark">Image Url</span>
+          <!-- Using form state modifers, the classes can be identical for every input -->
+          <input type="text" name="url" id="url" autocomplete="url" placeholder="Enter The image's Url"
+            class="w-full px-3 py-2 mt-1 text-sm bg-white border rounded-md shadow-sm placeholder-cake-me-dark/50 border-cake-me-dark text-cake-me-dark focus:outline-none focus:border-cake-me-dark focus:ring-1 focus:ring-cake-me-dark hover:bg-cake-me-light/10"
+            required />
+        </label>
+
+        <!-- Description -->
+        <label class="block mt-4">
+          <span class="block text-sm font-medium text-cake-me-dark">Description</span>
+          <!-- Using form state modifers, the classes can be identical for every input -->
+          <input type="text" placeholder="Enter The cake's description" name="description" id="description"
+            class="w-full px-3 py-2 mt-1 text-sm bg-white border rounded-md shadow-sm placeholder-cake-me-dark/50 border-cake-me-dark text-cake-me-dark focus:outline-none focus:border-cake-me-dark focus:ring-1 focus:ring-cake-me-dark hover:bg-cake-me-light/10"
+            required />
+        </label>
+
+        <!-- Price -->
+        <label class="block mt-4">
+          <span class="block text-sm font-medium text-sips-dark-blue">Price</span>
+          <!-- Using form state modifers, the classes can be identical for every input -->
+          <input type="number" placeholder="Enter The cake's price" name="price" id="price"
+            class="w-full px-3 py-2 mt-1 text-sm bg-white border rounded-md shadow-sm placeholder-cake-me-dark/50 border-cake-me-dark text-cake-me-dark focus:outline-none focus:border-cake-me-dark focus:ring-1 focus:ring-cake-me-dark hover:bg-cake-me-light/10"
+            required />
+        </label>
+
+        <!-- Cake Categories -->
+        <label class="block mt-4 ">
+          <span class="block text-sm font-medium text-cake-me-dark">Category</span>
+
+          <!-- radios -->
+          <div class="m-4 space-x-3">
+            <!-- Sponge-->
+            <label for="sponge">
+              <input class="border-cake-me-dark focus:cake-me-dark" type="radio" name="category" id="sponge"
+                value="Sponge" />
+
+              <span class="text-sm font-medium text-cake-me-dark">Sponge</span>
+
+            </label>
+
+            <!-- Butter -->
+            <label for="butter">
+              <input class="border-cake-me-dark focus:cake-me-dark" type="radio" name="category" id="butter"
+                value="Butter" />
+
+              <span class="text-sm font-medium text-cake-me-dark">Butter</span>
+            </label>
+
+            <!-- Red-velvet -->
+            <label for="Red-velvet">
+              <input class="border-cake-me-dark focus:cake-me-dark" type="radio" name="category" id="red-velvet"
+                value="Red-velvet" />
+
+              <span class="text-sm font-medium text-cake-me-dark">Red-velvet</span>
+            </label>
+
+            <!-- Biscuit -->
+            <label for="Biscuit">
+              <input class="border-cake-me-dark focus:cake-me-dark" type="radio" name="category" id="biscuit"
+                value="Biscuit" />
+
+              <span class="text-sm font-medium text-cake-me-dark">Biscuit</span>
+            </label>
+
+          </div>
+        </label>
+
+
+
+        <!-- Submit Button -->
+        <button type="submit"
+          class="flex justify-center w-full px-4 py-2 text-sm font-bold text-white transition-colors duration-300 border border-transparent rounded-md group bg-cake-me-dark hover:bg-cake-me-light hover:text-cake-me-dark">
+
+          Save Changes
+        </button>
+
+
+
+        <!-- end -->
+      </form>
+    </div>
+  </div>
+
+</main>
+{% endblock %}

@@ -50,12 +50,30 @@
       <span class="ml-2">Shop</span>
     </a>
 
-    <!-- Cart -->
-    <a href="{% url 'check_out' %}" class="inline-flex items-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-md text-cake-me-dark 
 
+
+
+    <!-- Cart -->
     {%if request.user.is_superuser%}
     <!-- Customers -->
-    <a href="{% url 'users' %}" class="inline-flex items-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-md text-cake-me-dark 
+    <a href=" {% url 'add_cakes' %}" class="inline-flex items-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-md text-cake-me-dark 
+      {% if request.resolver_match.url_name == 'add_cakes' %} bg-cake-me-dark text-cake-me-white {% endif %}
+      hover:text-white hover:bg-cake-me-dark hover:cursor-pointer">
+
+      <!-- icon -->
+      <svg class="w-6 h-6 fill-current" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+        stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="m20 20h-15.25c-.414 0-.75.336-.75.75s.336.75.75.75h15.75c.53 0 1-.47 1-1v-15.75c0-.414-.336-.75-.75-.75s-.75.336-.75.75zm-1-17c0-.478-.379-1-1-1h-15c-.62 0-1 .519-1 1v15c0 .621.52 1 1 1h15c.478 0 1-.379 1-1zm-9.25 6.75v-3c0-.414.336-.75.75-.75s.75.336.75.75v3h3c.414 0 .75.336.75.75s-.336.75-.75.75h-3v3c0 .414-.336.75-.75.75s-.75-.336-.75-.75v-3h-3c-.414 0-.75-.336-.75-.75s.336-.75.75-.75z"
+          fill-rule="nonzero" />
+      </svg>
+
+      <!-- text -->
+      <span class="ml-2">Add Cakes</span>
+    </a>
+
+    <!-- Customers -->
+    <a href=" {% url 'users' %}" class="inline-flex items-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-md text-cake-me-dark 
       
       {% if request.resolver_match.url_name == 'users' %} bg-cake-me-dark text-cake-me-white {% endif %}
       hover:text-white hover:bg-cake-me-dark hover:cursor-pointer">
@@ -67,10 +85,10 @@
       <!-- text -->
       <span class="ml-2">Customers</span>
     </a>
-    {%else %}
+    {% else %}
 
     <!-- Cart -->
-    <a href="check_out.html" class="inline-flex items-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-md text-cake-me-dark 
+    <a href="{% url 'check_out' %}" class="inline-flex items-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-md text-cake-me-dark 
         
         {% if request.resolver_match.url_name == 'check_out' %} bg-cake-me-dark text-cake-me-white {% endif %}
         hover:text-white hover:bg-cake-me-dark hover:cursor-pointer">
