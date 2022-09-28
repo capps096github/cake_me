@@ -324,7 +324,7 @@ def profile(request):
 # check_out
 def check_out(request):
     return render(request, 'check_out/check_out.html')
-
+# cakes
 def cakes(request):
     if request.method=='POST':
         cake_name=request.POST['name']
@@ -333,8 +333,6 @@ def cakes(request):
         price=request.POST['price']
         category=request.POST['category']
         
-        # cake = Cake.objects.create_user(cake_name, image_url, description, price, category)
-        # cake.save()
 
         
         Cake(name=cake_name,image_url=image_url,description=description,price=price,category=category).save()
