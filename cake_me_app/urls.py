@@ -20,6 +20,9 @@ urlpatterns = [
     # profile
     path("profile", views.profile, name="profile"),
 
+    # Users
+    path("users", views.users, name="users"),
+
     # cart
     path("add/<int:cake_id>/", views.add_to_cart, name="cart_add"),
     path("remove/<int:cake_id>/", views.remove_from_cart, name="cart_remove"),
