@@ -1,0 +1,145 @@
+{% extends "cake_me.html" %}
+
+{% block title %}
+<title>Cake Me Users</title>
+{% endblock %}
+
+{% block navbar %}
+<nav
+  class="fixed top-0 left-0 right-0 flex justify-between px-6 text-white lg:flex-row md:flex-col sm:flex-col md:px-4 sm:px-2 bg-cake-me-light"
+  style="z-index: 1000;">
+
+  <!-- back -->
+  <div class="flex flex-col items-center py-2 mt-4 space-x-2 space-y-2 md:mt-0 lg:flex-row md:flex-col md:space-y-2">
+    <a href="{% url 'shop' %}"
+      class="inline-flex items-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-md text-cake-me-dark hover:text-white hover:bg-cake-me-dark hover:cursor-pointer">
+      <!-- icon -->
+      <svg class="w-6 h-6 fill-current" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+        stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="m12.012 2c5.518 0 9.997 4.48 9.997 9.998 0 5.517-4.479 9.997-9.997 9.997s-9.998-4.48-9.998-9.997c0-5.518 4.48-9.998 9.998-9.998zm-1.523 6.21s-1.502 1.505-3.255 3.259c-.147.147-.22.339-.22.531s.073.383.22.53c1.753 1.754 3.254 3.258 3.254 3.258.145.145.335.217.526.217.192-.001.384-.074.531-.221.292-.293.294-.766.003-1.057l-1.977-1.977h6.693c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-6.693l1.978-1.979c.29-.289.287-.762-.006-1.054-.147-.147-.339-.221-.53-.222-.19 0-.38.071-.524.215z"
+          fill-rule="nonzero" />
+      </svg>
+
+      <!-- text -->
+      <span class="ml-2">Back</span>
+    </a>
+  </div>
+
+  <!-- Title -->
+  <div class="items-center py-2.5">
+    <h2 class="text-2xl font-bold text-cake-me-dark ">CakeMe Users</h2>
+  </div>
+
+
+  <div class="flex flex-col items-center py-2 mt-4 space-x-2 space-y-2 md:mt-0 lg:flex-row md:flex-col md:space-y-2">
+    <a href="shop.html"
+      class="inline-flex items-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-md text-cake-me-white bg-cake-me-dark hover:text-cake-me-dark hover:bg-cake-me-white hover:cursor-pointer">
+      <!-- icon -->
+      <svg class="w-6 h-6 fill-current" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+        stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="m20 20h-15.25c-.414 0-.75.336-.75.75s.336.75.75.75h15.75c.53 0 1-.47 1-1v-15.75c0-.414-.336-.75-.75-.75s-.75.336-.75.75zm-1-17c0-.478-.379-1-1-1h-15c-.62 0-1 .519-1 1v15c0 .621.52 1 1 1h15c.478 0 1-.379 1-1zm-9.25 6.75v-3c0-.414.336-.75.75-.75s.75.336.75.75v3h3c.414 0 .75.336.75.75s-.336.75-.75.75h-3v3c0 .414-.336.75-.75.75s-.75-.336-.75-.75v-3h-3c-.414 0-.75-.336-.75-.75s.336-.75.75-.75z"
+          fill-rule="nonzero" />
+      </svg>
+
+      <!-- text -->
+      <span class="ml-2">Add New User</span>
+    </a>
+  </div>
+
+</nav>
+{% endblock %}
+
+{% block content %}
+<!-- main -->
+<main class="w-full p-10 mt-10 space-y-4">
+  <!-- Table -->
+  <div class="flex flex-col">
+    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+        <div class="overflow-hidden border-b shadow border-cake-me-dark/40 sm:rounded-lg">
+          <table class="min-w-full divide-y divide-cake-me-dark text-cake-me-dark">
+            <!-- Heads -->
+            <thead class="bg-cake-me-dark">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-white uppercase">
+                  User ID
+                </th>
+                <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-white uppercase">
+                  Username
+                </th>
+                <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-white uppercase">
+                  First Name
+                </th>
+                <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-white uppercase">
+                  Last Name
+                </th>
+                <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-white uppercase">
+                  Email
+                </th>
+
+                <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-center text-white uppercase">
+                  Status
+                </th>
+
+              </tr>
+            </thead>
+
+            <!-- Table Body -->
+            <tbody class="divide-y bg-cake-me-white divide-cake-me-dark/20">
+
+              {% for user in users %}
+              <!-- 1 -->
+              <tr>
+                <td class="px-6 py-4">
+                  <p class="text-sm font-bold text-left ">
+                    {{user.id}}.
+                  </p>
+                </td>
+                <td class="px-6 py-4">
+                  <p class="text-sm tracking-wider">
+                    @{{user.username}}
+                  </p>
+                </td>
+                <td class="px-6 py-4">
+                  <p class="text-sm tracking-wider">
+                    {{user.first_name}}
+                  </p>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="inline-flex px-2 text-sm leading-5 rounded-full ">
+                    {{user.last_name}}
+                  </span>
+                </td>
+                <td class="px-6 py-4 text-sm underline whitespace-nowrap text-cake-me-blue ">
+                  {{user.email}}
+                </td>
+
+                {% if user.is_superuser %}
+                <td class="items-center justify-center px-6 py-4 text-center whitespace-nowrap">
+                  <span class="inline-flex px-2 text-xs leading-5 rounded-full bg-cake-me-dark text-cake-me-white">
+                    Super
+                  </span>
+                </td>
+                {% else %}
+                <td class="items-center justify-center px-6 py-4 text-center whitespace-nowrap">
+                  <span class="inline-flex px-2 text-xs leading-5 rounded-full bg-cake-me-light text-cake-me-white">
+                    Normal
+                  </span>
+                </td>
+                {% endif %}
+
+              </tr>
+              {% endfor %}
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+{% endblock %}

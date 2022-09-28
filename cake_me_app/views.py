@@ -290,9 +290,6 @@ def profile(request):
         # get the current user
         user = User.objects.get(id=request.user.id)
 
-        # detect if the user is a super user
-        # if user.is_superuser:
-
         # get the username, first_name, last_name, email, password
         username = request.POST['username']
         email = request.POST['email']
@@ -312,7 +309,6 @@ def profile(request):
 
         # reload the user
 
-
         # redirect to the profile page
         return redirect('profile')
         # return render(request, 'profile/profile.html')
@@ -321,6 +317,7 @@ def profile(request):
         return render(request, 'profile/profile.html')
 
 
+<<<<<<< Updated upstream
 # check_out
 def check_out(request):
     return render(request, 'check_out/check_out.html')
@@ -342,3 +339,28 @@ def cakes(request):
         return redirect('shop')
     else:
         return render(request,'cakes/cakes.html')
+=======
+# users
+# To see this,you must have logged in and you must be a superuser
+@login_required
+def users(request):
+
+    # is super user
+    is_super_user = request.user.is_superuser
+
+    # check if the user is a super user and if they are, show the users page else keep them on the page they were
+    if is_super_user:
+        # get users from database
+        users = User.objects.all()
+
+        # passing users to the context
+        context = {
+            'users': users,
+        }
+
+        # render users page and pass in the context
+        return render(request, 'users/user_list.html', context=context)
+    else:
+        # keep user on the current page
+        return redirect(request.META.get("HTTP_REFERER"))
+>>>>>>> Stashed changes
