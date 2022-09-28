@@ -342,3 +342,10 @@ def cakes(request):
         return redirect('shop')
     else:
         return render(request,'cakes/cakes.html')
+    
+# send quatity to database from the check_out page after inputing the quantity
+def send_quantity(request):
+    if request.method == 'POST':
+        quantity = request.POST['quantity']
+        OrderItem(quantity=quantity).save()
+        
