@@ -290,6 +290,9 @@ def profile(request):
         # get the current user
         user = User.objects.get(id=request.user.id)
 
+        # detect if the user is a super user
+        # if user.is_superuser:
+
         # get the username, first_name, last_name, email, password
         username = request.POST['username']
         email = request.POST['email']
