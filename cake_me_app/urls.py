@@ -27,6 +27,9 @@ urlpatterns = [
     
     # check_out
     path("check_out", views.check_out, name="check_out"),
+
+    #adding cakes to the db
+    path('cakes/',views.cakes, name='cakes'), 
     
 ]
 
