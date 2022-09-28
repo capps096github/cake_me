@@ -290,6 +290,9 @@ def profile(request):
         # get the current user
         user = User.objects.get(id=request.user.id)
 
+        # detect if the user is a super user
+        # if user.is_superuser:
+
         # get the username, first_name, last_name, email, password
         username = request.POST['username']
         email = request.POST['email']
@@ -309,6 +312,7 @@ def profile(request):
 
         # reload the user
 
+
         # redirect to the profile page
         return redirect('profile')
         # return render(request, 'profile/profile.html')
@@ -320,7 +324,7 @@ def profile(request):
 # check_out
 def check_out(request):
     return render(request, 'check_out/check_out.html')
-# cakes
+
 def cakes(request):
     if request.method=='POST':
         cake_name=request.POST['name']
@@ -329,6 +333,8 @@ def cakes(request):
         price=request.POST['price']
         category=request.POST['category']
         
+        # cake = Cake.objects.create_user(cake_name, image_url, description, price, category)
+        # cake.save()
 
         
         Cake(name=cake_name,image_url=image_url,description=description,price=price,category=category).save()
@@ -359,3 +365,10 @@ def users(request):
     else:
         # keep user on the current page
         return redirect(request.META.get("HTTP_REFERER"))
+    
+# send quatity to database from the check_out page after inputing the quantity
+def send_quantity(request):
+    if request.method == 'POST':
+        quantity = request.POST['quantity']
+        OrderItem(quantity=quantity).save()
+        
