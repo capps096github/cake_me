@@ -23,6 +23,9 @@ urlpatterns = [
     # Users
     path("users", views.users, name="users"),
 
+    # add user
+    path("add_user", views.add_user, name="add_user"),
+
     # add_cakes
     path("add_cakes", views.add_cakes, name="add_cakes"),
 

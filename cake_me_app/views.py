@@ -376,3 +376,37 @@ def users(request):
     else:
         # keep user on the current page
         return redirect(request.META.get("HTTP_REFERER"))
+
+
+# add new user
+@login_required
+def add_user(request):
+    if request.method == 'POST':
+        # get the username, email, password, last_name, first_name from the request
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        last_name = request.POST['last_name']
+        first_name = request.POST['first_name']
+
+        # role
+        role = request.POST['role']
+
+        # if the role is superuser create a superuser
+        if role == 'superuser':
+            user = User.objects.create_superuser(username, email, password)
+        else:
+            # create a new user with the username, email, and password
+            user = User.objects.create_user(username, email, password)
+
+        # set the last_name and first_name of the user
+        user.last_name = last_name
+        user.first_name = first_name
+
+        # save the user
+        user.save()
+
+        # redirect to the shop page
+        return redirect('add_user')
+    else:
+        return render(request, 'users/add_users.html')

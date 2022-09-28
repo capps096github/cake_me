@@ -2,8 +2,42 @@
 
 
 <!-- Title -->
-{% block title %} <title>CakeMe | @{{user.username}}'s Profile</title> {% endblock %}
+{% block title %} <title>Add CakeMe user</title> {% endblock %}
 
+
+{% block navbar %}
+<nav
+  class="fixed top-0 left-0 right-0 flex justify-between px-6 text-white lg:flex-row md:flex-col sm:flex-col md:px-4 sm:px-2 bg-cake-me-light"
+  style="z-index: 1000;">
+
+  <!-- back -->
+  <div class="flex flex-col items-center py-2 mt-4 space-x-2 space-y-2 md:mt-0 lg:flex-row md:flex-col md:space-y-2">
+    <a href="{% url 'users' %}"
+      class="inline-flex items-center px-5 py-2 text-sm font-semibold uppercase transition-colors duration-300 rounded-md text-cake-me-dark hover:text-white hover:bg-cake-me-dark hover:cursor-pointer">
+      <!-- icon -->
+      <svg class="w-6 h-6 fill-current" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+        stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="m12.012 2c5.518 0 9.997 4.48 9.997 9.998 0 5.517-4.479 9.997-9.997 9.997s-9.998-4.48-9.998-9.997c0-5.518 4.48-9.998 9.998-9.998zm-1.523 6.21s-1.502 1.505-3.255 3.259c-.147.147-.22.339-.22.531s.073.383.22.53c1.753 1.754 3.254 3.258 3.254 3.258.145.145.335.217.526.217.192-.001.384-.074.531-.221.292-.293.294-.766.003-1.057l-1.977-1.977h6.693c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-6.693l1.978-1.979c.29-.289.287-.762-.006-1.054-.147-.147-.339-.221-.53-.222-.19 0-.38.071-.524.215z"
+          fill-rule="nonzero" />
+      </svg>
+
+      <!-- text -->
+      <span class="ml-2">Back</span>
+    </a>
+  </div>
+
+  <!-- Title -->
+  <div class="items-center py-2.5">
+    <h2 class="text-2xl font-bold text-cake-me-dark ">Add New CakeMe User</h2>
+  </div>
+
+
+  <div>
+  </div>
+
+</nav>
+{% endblock %}
 
 {% block content %}
 <!-- Main Content -->
@@ -11,13 +45,13 @@
   <div class="items-center text-center transition-colors duration-500 sm:text-center text-cake-me-dark ">
 
     <p class="text-2xl  mt-4 font-bold tracking-tight">
-      Hey @{{user.username}} ...
+      Hey ADMIN: @{{user.username}} ...
     </p>
 
     <h2 class="mx-auto mt-4 text-4xl font-bold tracking-tight">
-      Edit your
+      Add the new
       <span class="underline text-cake-me-dark hover:text-cake-me-blue xl:inline"><a href="{% url 'shop' %}"> CakeMe
-          Account </a></span>
+          User </a></span>
       Details Below
     </h2>
   </div>
@@ -28,7 +62,7 @@
     class="flex flex-col items-center w-full p-4 mx-auto mt-4 text-2xl text-center rounded-lg text-cake-me-white bg-cake-me-red">
 
     <h2 class="text-2xl font-bold tracking-tight underline">
-      Error Editing Account Details due to the following:  {{form.errors}}
+      Error Editing Account Details due to the following: {{form.errors}}
     </h2>
 
     <p class="mx-auto mt-4 text-xl font-medium tracking-tight">
@@ -40,7 +74,7 @@
   <!-- Form div -->
   <div class="items-center justify-center mt-10">
     <div class="max-w-xl mx-auto">
-      <form class="space-y-6" method="post" action="{% url 'profile' %}">
+      <form class="space-y-6" method="post" action="{% url 'add_user' %}">
         {% csrf_token %}
 
         <!-- Name-->
@@ -50,7 +84,7 @@
           <input type="text" name="username" id="username" autocomplete="name"
             placeholder="This is what we shall use to call you e.g Cephas, Chosen, Desire, Olga, Fred"
             class="w-full px-3 py-2 mt-1 text-sm bg-white border rounded-md shadow-sm placeholder-cake-me-dark/50 border-cake-me-dark text-cake-me-dark focus:outline-none focus:border-cake-me-dark focus:ring-1 focus:ring-cake-me-dark hover:bg-cake-me-light/10"
-            required value="{{user.username}}" />
+            required />
         </label>
 
         <div class="flex flex-row space-x-4">
@@ -61,7 +95,7 @@
             <input type="text" name="first_name" id="first_name" autocomplete="name"
               placeholder="Your First Name e.g Cephas, Chosen, Desire, Olga, Fred"
               class="w-full px-3 py-2 mt-1 text-sm bg-white border rounded-md shadow-sm placeholder-cake-me-dark/50 border-cake-me-dark text-cake-me-dark focus:outline-none focus:border-cake-me-dark focus:ring-1 focus:ring-cake-me-dark hover:bg-cake-me-light/10"
-              required value="{{user.first_name}}" />
+              required />
           </label>
           <!-- Last Name-->
           <label class="flex-1 block mt-4">
@@ -70,7 +104,7 @@
             <input type="text" name="last_name" id="last_name" autocomplete="name"
               placeholder="Your Last Name e.g Cephas, Chosen, Desire, Olga, Fred"
               class="w-full px-3 py-2 mt-1 text-sm bg-white border rounded-md shadow-sm placeholder-cake-me-dark/50 border-cake-me-dark text-cake-me-dark focus:outline-none focus:border-cake-me-dark focus:ring-1 focus:ring-cake-me-dark hover:bg-cake-me-light/10"
-              required value="{{user.last_name}}" />
+              required />
           </label>
         </div>
 
@@ -81,7 +115,7 @@
           <input type="email" name="email" id="email" autocomplete="email"
             placeholder="Your Email, we shall use this to confirm your orders e.g user@cakeme.shop, x@gmail.com"
             class="w-full px-3 py-2 mt-1 text-sm bg-white border rounded-md shadow-sm placeholder-cake-me-dark/50 border-cake-me-dark text-cake-me-dark focus:outline-none focus:border-cake-me-dark focus:ring-1 focus:ring-cake-me-dark hover:bg-cake-me-light/10"
-            required value="{{user.email}}" />
+            required />
         </label>
 
 
@@ -92,15 +126,43 @@
           <input type="text" placeholder="Your Password - Keep it Short, Secure and Secret" name="password"
             id="password" autocomplete="current-password"
             class="w-full px-3 py-2 mt-1 text-sm bg-white border rounded-md shadow-sm placeholder-cake-me-dark/50 border-cake-me-dark text-cake-me-dark focus:outline-none focus:border-cake-me-dark focus:ring-1 focus:ring-cake-me-dark hover:bg-cake-me-light/10"
-            required value="{{user.password}}" />
+            required />
         </label>
+
+        <label class="block mt-4 ">
+          <span class="block text-sm font-medium text-cake-me-dark">Role</span>
+
+          <!-- radios -->
+          <div class="m-4 space-x-3">
+            <!-- Sponge-->
+            <label for="sponge">
+              <input class="border-cake-me-dark focus:cake-me-dark" type="radio" name="role" id="super"
+                value="superuser" />
+
+              <span class="text-sm font-medium text-cake-me-dark">Super User</span>
+
+            </label>
+
+            <!-- Butter -->
+            <label for="butter">
+              <input class="border-cake-me-dark focus:cake-me-dark" type="radio" name="role" id="normal"
+                value="normaluser" />
+
+              <span class="text-sm font-medium text-cake-me-dark">Normal User</span>
+            </label>
+
+
+
+          </div>
+        </label>
+
 
 
         <!-- Submit Button -->
         <button type="submit"
           class="flex justify-center w-full px-4 py-2 text-sm font-bold text-white transition-colors duration-300 border border-transparent rounded-md group bg-cake-me-dark hover:bg-cake-me-light hover:text-cake-me-dark">
 
-          Save Changes
+          Add User
         </button>
 
         <!-- end -->
