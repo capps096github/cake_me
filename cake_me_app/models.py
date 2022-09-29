@@ -47,7 +47,7 @@ class CakeOrderItem(models.Model):
 
     # quantity
     quantity = models.IntegerField(
-        help_text='Enter the quantity of the cake', default=0)
+        help_text='Enter the quantity of the cake', default=1)
 
     def __str__(self):
         return f" * Cake: {self.cake.__str__()} - Quantity: {self.quantity}\n"
