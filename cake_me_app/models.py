@@ -41,9 +41,10 @@ class Cake(models.Model):
 """
 
 
-class OrderItem(models.Model):
+class CakeOrderItem(models.Model):
     # cake_id
     cake = models.ForeignKey(Cake, on_delete=models.CASCADE, default=1)
+
     # quantity
     quantity = models.IntegerField(
         help_text='Enter the quantity of the cake', default=0)
@@ -66,16 +67,21 @@ class Order(models.Model):
     # date
     date = models.DateField(
         help_text='Enter the date of the order', default=timezone.now)
-    # order_items list as OrderItem model many to many
-    order_items = models.ManyToManyField(OrderItem)
+
+    # order items
+    items = models.ManyToManyField(CakeOrderItem)
 
     # update the total cost of the order
-
     def update_total_cost(self):
         self.total_cost = 0
-        for item in self.order_items.all():
+        for item in self.items.all():
             self.total_cost += item.cake.price * item.quantity
         self.save()
+
+    # get total price
+    def get_total_price(self):
+        return self.total_cost
+        
 
     def __str__(self):
         return f"User: {self.user.username} - Total Cost: {self.total_cost} - Date: {self.date}"

@@ -9,148 +9,160 @@
 <!-- main -->
 <main class="max-w-6xl px-4 mx-auto mt-4 mb-4 sm:mt-5 sm:px-6 md:mt-8">
 
-    <!-- title -->
-    <div class="m-10 mx-auto space-x-4 text-cake-me-dark">
-      <h1 class="mt-12 text-4xl font-bold tracking-wide text-center ">Checkout</h1>
-      <p class="mt-2 text-2xl font-bold tracking-tight text-center">
-        Your Order is underway, checkout to receive it...
-      </p>
-    </div>
+  <!-- title -->
+  <div class="m-10 mx-auto space-x-4 text-cake-me-dark">
+    <h1 class="mt-12 text-4xl font-bold tracking-wide text-center ">Checkout</h1>
+    <p class="mt-2 text-2xl font-bold tracking-tight text-center">
+      {{user.first_name}}, Your Order of <span class="underline"> {{number_of_items}} Cakes</span> is underway, Checkout
+      to receive it...
+    </p>
+  </div>
 
 
-    <!-- grid with cart and checkout -->
-    <div class="px-4 mt-8 lg:px-0">
-      <div class="grid-cols-12 gap-16 lg:grid">
+  <!-- grid with cart and checkout -->
+  <div class="px-4 mt-8 lg:px-0">
+    <div class="grid-cols-12 gap-16 lg:grid">
 
-        <div class="col-start-1 col-end-8">
-          <div>
-            <div class="divide-y">
-              <!-- cart item  -->
-              <article class="flex py-8 space-x-4">
-                <div class="overflow-hidden rounded shadow">
-                  <img
-                    src="https://images.unsplash.com/photo-1614707269211-474b2510b3ad?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
-                    alt="Red Velvet" class="object-cover w-48 h-48">
-                </div>
-                <div class="flex-grow py-1">
-                  <!--TEXT-->
-                  <div class="text-lg font-bold text-cake-me-dark">
-                    Red Velvet
-                  </div>
-                  <!--price-->
-                  <div class="text-sm font-bold text-cake-me-dark">
-                    $20
-                  </div>
-                  <div class="mt-4">
-                    <div class="flex space-x-6 text-xs text-gray-600">
-                      <div class="flex space-x-1" data-state="tooltip-hidden" data-reach-tooltip-trigger="">
+      <div class="col-start-1 col-end-8">
+        <div>
+          <div class="divide-y">
 
-                      </div>
-                    </div>
-                  </div>
-                  <div class="flex items-center mt-4">
-                    <div class="flex-grow">
-                      <div>
-                        <form method="POST">
+            {% for cake,item in cart_list %}
+            <!-- cart item  -->
+            <article class="flex py-8 space-x-4">
+              <div class="overflow-hidden rounded shadow">
+                <img
+                  src="https://images.unsplash.com/photo-1614707269211-474b2510b3ad?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+                  alt="Red Velvet" class="object-cover w-48 h-48">
+              </div>
+              <div class="flex-grow py-1">
+                <!--TEXT-->
+                <h4 class="text-2xl font-bold text-cake-me-dark">
+                  {{cake.name}}
+                </h4>
+                <!--price-->
+                <p class="text-sm mt-4 font-bold text-cake-me-dark">
+                  UGX {{ cake.price |intcomma }} x {{ item.quantity }}
+                </p>
+
+                <div class="flex flex-row justify-center items-center mt-4">
+                  <div class="flex-1">
+                    <div>
+                      <form method="POST" action="{% url 'update_quantity' item.id %} " method="post">
+                        {% csrf_token %}
+
                         <!--Quantity-->
-                        <label for="quantity-lizarb" class="block mb-2 text-sm font-medium">
+                        <label for="quantity" class="block mb-2 text-sm font-medium">
                           Quantity
+
+                          <!--capture the cake quantity to database-->
+                          <input type="number" max="100" min="1" id="quantity" name="quantity" value="{{item.quantity}}"
+                            class="w-full px-2 py-1 bg-white border rounded focus:outline-none focus:border-gray-500">
                         </label>
-
-                        <!--capture the cake quantity to database-->
-                      
-                        <input type="number" max="100" min="1" id="quantity" name="quantity"
-                          class="w-full px-2 py-1 bg-white border rounded focus:outline-none focus:border-gray-500"
-                          value="1">
-                          </form>
-                      </div>
+                      </form>
                     </div>
-                    <div class="flex items-center justify-center flex-shrink-0 w-10">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                        aria-hidden="true" role="button" class="w-5 h-5 mt-7 hover:opacity-50 text-cake-me-light">
-                        <path fill-rule="evenodd"
-                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                          clip-rule="evenodd">
+                  </div>
 
-                        </path>
+                  <a href="{% url 'cart_remove' cake.id %}" title="Remove from Cart">
+                    <div role="button"
+                      class="flex items-center justify-center w-12 h-12 transition-all duration-300 rounded-tr rounded-bl bg-cake-me-red text-cake-me-white hover:text-cake-me-red hover:bg-cake-me-white "
+                      title="Remove from Cart">
+                      <svg class="w-6 h-6 fill-current" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round"
+                        stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="m12 10.93 5.719-5.72c.146-.146.339-.219.531-.219.404 0 .75.324.75.749 0 .193-.073.385-.219.532l-5.72 5.719 5.719 5.719c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.385-.073-.531-.219l-5.719-5.719-5.719 5.719c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l5.719-5.719-5.72-5.719c-.146-.147-.219-.339-.219-.532 0-.425.346-.749.75-.749.192 0 .385.073.531.219z" />
                       </svg>
                     </div>
-                  </div>
-                </div>
-              </article>
-              <!-- end cart item -->
+                  </a>
 
-              <!-- put items here -->
-
-            </div>
-          </div>
-        </div>
-
-        <!--Order Summary section-->
-        <div class="col-start-8 col-end-13">
-          <div class="p-8 space-y-2 border rounded lg:sticky bg-gray-50 top-20">
-            <div>
-              <h2 class="text-lg font-bold text-cake-me-dark">
-                Order Summary
-              </h2>
-              <div class="my-4 divide-y">
-                <div class="flex items-center py-2">
-                  <!--cake type-->
-                  <div class="flex-grow text-sm text-gray-700">
-                   1 x Red Velvet</div>
-                  <!--price-->
-                  <div class="text-sm font-bold text-gray-700">
-                    $20
-                  </div>
-                </div>
-
-                <div class="flex items-center py-2">
-                  <div class="flex-grow text-sm text-gray-700">
-                    Delivery
-                  </div>
-                  <div class="text-sm font-bold text-gray-700">
-                    <span>$2</span>
-                  </div>
-                </div>
-                <div class="flex items-center py-2">
-                  <div class="flex-grow text-sm text-gray-700">
-                    <span class="text-lg font-bold text-cake-me-dark">
-                      Order Total
-                    </span>
-                  </div>
-                  <div class="text-sm font-bold text-gray-700">
-                    <span class="text-lg">$22.00</span>
-                  </div>
-                </div>
-                <!--PAYMENT-->
-                <div class="flex flex-col px-8 text-lg font-extrabold text-center text-cake-me-dark">
-                  <h1 class="text-cake-me-blue">Payment Method</h1>
-                  <!--make a drop down of 4 items-->
-                  <select name="payment" id="payment" class="w-full px-2 py-1 mt-2 bg-white border rounded-md focus:outline-none focus:border-gray-500">
-                    <option value="paypal">PayPal</option>
-                    <option value="visa">Visa</option>
-                    <option value="mtn">MTN Money</option>
-                    <option value="airtel">Airtel Money</option>
-                  </select>
-
-                  <!--make submit button for selected payment method-->
-                  <button type="button" class="relative  mt-4 flex flex-auto justify-center text-sm font-medium w-full px-4 py-1 border border-transparent rounded-md shadow-sm  text-white  bg-cake-me-light hover:bg-cake-me-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    <span>
-                    Place Order →
-                    </span>
-
-                  </button>
                 </div>
               </div>
-            </div>
-            <!-- end of .flex -->
-         
+            </article>
+            <!-- end cart item -->
+            {% endfor %}
+
           </div>
         </div>
       </div>
+
+      <!--Order Summary section-->
+      <div class="col-start-8 col-end-13 ">
+        <div class="p-8 space-y-2 border rounded bg-cake-me-dark text-cake-me-light lg:sticky top-20">
+          <div>
+            <h2 class="text-2xl font-bold">
+              Order Summary
+            </h2>
+            <div class="my-4 divide-y">
+
+              {% for cake,item in cart_list_2 %}
+
+              <div class="flex items-center py-2 text-cake-me-white">
+                <!--cake type-->
+                <div class="flex-grow text-sm">
+                  {{item.quantity}} x {{cake.name}}
+                </div>
+                <!--price-->
+                <div class="text-sm font-bold">
+                  UGX {{ cake.price |intcomma }}
+                </div>
+              </div>
+
+              {% endfor %}
+
+              <!-- delivery -->
+              <div class="flex items-center py-2">
+                <div class="flex-grow text-sm">
+                  Delivery
+                </div>
+                <div class="text-sm font-bold">
+                  <span>UGX {{ delivery_cost |intcomma }}</span>
+                </div>
+              </div>
+
+              <!-- total -->
+              <div class="flex flex-col items-center py-2">
+                <div class="flex-grow text-sm">
+                  <span class="text-lg font-bold">
+                    Order Total
+                  </span>
+                </div>
+                <div class="text-sm font-bold">
+                  <span class="text-lg">UGX {{ total_price |intcomma }}</span>
+                </div>
+              </div>
+
+              <!--PAYMENT-->
+              <div class="mt-4 flex flex-col px-8 text-lg text-center text-cake-me-dark">
+                <span class="text-lg font-bold text-cake-me-light">Payment Method</span>
+                <!--make a drop-down of 4 items-->
+                <select name="payment" id="payment" title="payment method"
+                  class="w-full px-2 py-1 mt-2 bg-white border rounded-md focus:outline-none focus:border-gray-500">
+                  <option value="paypal">PayPal</option>
+                  <option value="visa">Visa</option>
+                  <option value="mtn">MTN Money</option>
+                  <option value="airtel">Airtel Money</option>
+                </select>
+
+              </div>
+
+              <!--make submit button for selected payment method-->
+              <button type="button"
+                class="relative  mt-10 flex flex-auto justify-center text-sm font-medium w-full px-4 py-1 border border-transparent rounded-md shadow-sm  text-white  bg-cake-me-light hover:bg-cake-me-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <span>
+                  Place Order →
+                </span>
+
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- end of .flex -->
+
+      </div>
     </div>
+  </div>
 
 
 
-  </main>
+</main>
 {% endblock %}

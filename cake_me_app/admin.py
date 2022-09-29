@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # import the models from models.py
-from .models import Cake, Order, OrderItem
+from .models import Cake, CakeOrderItem, Order
 
 
 # register the Cake model
@@ -11,7 +11,7 @@ admin.site.register(Cake)
 admin.site.register(Order)
 
 # register the OrderItem model
-admin.site.register(OrderItem)
+admin.site.register(CakeOrderItem)
 
 # Create superuser for the CakeMe project as per
 # https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Admin_site

@@ -1,19 +1,13 @@
 from django.core.mail import EmailMessage
-from django import template
 from django.conf import settings
 from django.db.models import Q
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template import loader
-from django.urls import resolve
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 
-from django.core.mail import send_mail
-
-from .models import Cake
-
-from .models import Cake, Order, OrderItem
+from .models import Cake, CakeOrderItem, Order
 
 from django.contrib.auth.decorators import login_required
 
@@ -48,7 +42,7 @@ def shop(request):
 
     # {{cake_count}} Cakes
 
-    # create a title variable from the selected category i.e all, sponge, red-velvet, butter, biscuit
+    # create a title variable from the selected category i.e. all, sponge, red-velvet, butter, biscuit
     if not category or category == "all":
         title = f"All {cake_count} Cakes"
     else:
@@ -66,15 +60,15 @@ def shop(request):
     # get the order with the user if orders is not empty
     if orders:
         # get the order object by user
-        order = Order.objects.get_or_create(user=user)
+        order = Order.objects.get_or_create(user=user)[0]
 
         # get the order items in the order if order items exist in the order
-        order_items = order.order_items.all() if hasattr(order, "order_items") else None
+        order_items = order.items.all()
 
         # get a list of all cake ids in the order via the order item
         cake_ids = [
             item.cake.id for item in order_items] if order_items else None
-        # create a context dictionary add cake ids to the context dictionary if its not empty
+        # create a context dictionary add cake ids to the context dictionary if it's not empty
         context = {
             "cake_items": cake_items,
             "category": category,
@@ -117,13 +111,14 @@ def add_to_cart(request, cake_id):
 
     if orders:
         # create an order object if it does not exist
-        order = Order.objects.get(user=user)
+        order = Order.objects.get_or_create(user=user)[0]
+
     else:
         # create an order object if it does not exist
         order = Order.objects.create(user=user)
 
     # get the order item object if it exists else create it
-    order_item, created = OrderItem.objects.get_or_create(cake_id=cake.id)
+    order_item, created = CakeOrderItem.objects.get_or_create(cake_id=cake.id)
 
     # if it exists, update the quantity
     if not created:
@@ -131,7 +126,9 @@ def add_to_cart(request, cake_id):
         order_item.save()
 
     # add the order item to the order
-    order.order_items.add(order_item)
+    # print the order
+    # print(order)
+    order.items.add(order_item)
 
     # update the order total
     order.update_total_cost()
@@ -140,7 +137,7 @@ def add_to_cart(request, cake_id):
     order.save()
 
     # if the order item has been added to cart, redirect the user back to the current page
-    # return to the curent page
+    # return to the current page
     return redirect(request.META.get("HTTP_REFERER"))
 
 
@@ -148,7 +145,7 @@ def add_to_cart(request, cake_id):
 @login_required
 def update_quantity(request, item_id):
     # get the order item object
-    order_item = OrderItem.objects.get(id=item_id)
+    order_item = CakeOrderItem.objects.get(id=item_id)
 
     # get the quantity from the request
     quantity = request.POST.get("quantity")
@@ -159,8 +156,17 @@ def update_quantity(request, item_id):
     # save the order item
     order_item.save()
 
-    # if the order item has been updated, redicrect the user back to the shop page
-    return redirect("details/{{item_id}}/")
+    # get the current user
+    user = User.objects.get(id=request.user.id)
+
+    # get the order object
+    order = Order.objects.get(user=user)
+
+    # update the order total
+    order.update_total_cost()
+
+    # return to the current page
+    return redirect(request.META.get("HTTP_REFERER"))
 
 
 # remove from cart view
@@ -179,10 +185,10 @@ def remove_from_cart(request, cake_id):
     order = Order.objects.get(user=user)
 
     # get the order item object
-    order_item = OrderItem.objects.get(cake_id=cake)
+    order_item = CakeOrderItem.objects.get(cake_id=cake)
 
     # remove item from cart
-    order.order_items.remove(order_item)
+    order.items.remove(order_item)
 
     # update the order total
     order.update_total_cost()
@@ -190,7 +196,7 @@ def remove_from_cart(request, cake_id):
     # save the order
     order.save()
 
-    # if the order item has been removed from cart, redicrect the user back to the current page
+    # if the order item has been removed from cart, redirect the user back to the current page
     return redirect(request.META.get("HTTP_REFERER"))
 
 
@@ -217,10 +223,10 @@ def details(request, cake_id):
         # if the order object is not null
         if order is not None:
             # get the order items
-            order_items = order.order_items.all()
+            order_items = order.items.all()
             # get a list of all cake ids in the order via the order item
             cake_ids = [item.cake.id for item in order_items]
-            # create a context dictionary add cake ids to the context dictionary if its not empty
+            # create a context dictionary add cake ids to the context dictionary if it's not empty
             context = {
                 "cake": cake,
                 "cake_ids": cake_ids,
@@ -269,9 +275,7 @@ def search(request):
         # get the search term from the request
         search_query = request.POST['query_text']
 
-        # cakes_searched = Cake.objects.all().filter(name__icontains=search_query.lower() or
-        # description__icontains=search_query.lower()) get the cakes in the database that match the search term by
-        # name and description, price, category
+        # search by name and description, price, category
         cakes_searched = Cake.objects.filter(
             Q(name__icontains=search_query.lower()) | Q(description__icontains=search_query.lower()) | Q(
                 price__icontains=search_query.lower()) | Q(category__icontains=search_query.lower()))
@@ -302,7 +306,7 @@ def profile(request):
         # get the current user
         user = User.objects.get(id=request.user.id)
 
-        # detect if the user is a super user
+        # detect if the user is a superuser
         # if user.is_superuser:
 
         # get the username, first_name, last_name, email, password
@@ -332,15 +336,6 @@ def profile(request):
         return render(request, 'profile/profile.html')
 
 
-
-    
-    
-    
-    
-    
-
-
-
 @login_required
 def add_cakes(request):
     if request.method == 'POST':
@@ -353,11 +348,11 @@ def add_cakes(request):
         # create a new cake
         Cake(name=cake_name, image_url=image_url, description=description,
              price=price, category=category).save()
-        
 
         return redirect('add_cakes')
     else:
         return render(request, 'shop/add_cakes.html')
+
 
 # delete cakes and return to the shop screen
 
@@ -369,13 +364,9 @@ def delete_cake(request, cake_id):
 
     # delete the cake
     cake.delete()
-    
 
-    # redirect to the shop page
-    return redirect('shop')
-
-# users
-# To see this,you must have logged in and you must be a superuser
+    # redirect to the current page
+    return redirect(request.META.get("HTTP_REFERER"))
 
 
 @login_required
@@ -438,34 +429,63 @@ def add_user(request):
         return render(request, 'users/add_users.html')
 
 
-# capture the quantity of cake in the cart and update the quantity to calculate the total cost of the cakes basing on the unit cost of each cake
+# send an email when someone clicks the cart button
 @login_required
-def update_quantity(request, cake_id):
-    # get the cake object
-    cake = Cake.objects.get(id=cake_id)
-
-    # get the quantity from the request
-    quantity = request.POST['quantity']
-
-    # update the quantity
-    cake.quantity = quantity
-
-    # save the cake
-    cake.save()
-
-    # redirect to the cart page
-    return redirect('check_out')
-
-
-# send an email when someone clicks the cart button 
-@login_required
-def check_out(request):
-        email=EmailMessage(
+def send_email(request):
+    email = EmailMessage(
         'Thank you',
         'Hello',
         settings.EMAIL_HOST_USER,
         ['cephasbrianz1@gmail.com']
     )
-        email.fail_silently=False
-        email.send()
-        return redirect('check_out')
+    email.fail_silently = False
+    email.send()
+    return redirect('check_out')
+
+
+# check out
+@login_required
+def check_out(request):
+    # get the current user
+    user = User.objects.get(id=request.user.id)
+
+    # get the orders of the current user in the database if it exists
+    order = Order.objects.get_or_create(user=user)[0]
+
+    # check if the order exists
+    if order:
+
+        # get the order items from the order
+        items = order.items.all()
+
+        # number of items in the order
+        number_of_items = items.count()
+
+        # cake objects from the items in the order via the id
+        cakes = [Cake.objects.get(id=item.cake.id) for item in items]
+
+        # cart list as zip
+        cart_list = zip(cakes, items)
+        cart_list_2 = zip(cakes, items)
+
+        # delivery cost
+        delivery_cost = 2000
+
+        # get the total price of the order + delivery cost
+        total_price = order.get_total_price() + delivery_cost
+
+        # pass the orders to the context
+        context = {
+            'number_of_items': number_of_items,
+            'cart_list': cart_list,
+            'cart_list_2': cart_list_2,
+            'delivery_cost': delivery_cost,
+            'total_price': total_price,
+        }
+
+        # render users page and pass in the context
+        return render(request, 'check_out/check_out.html', context=context)
+
+    else:
+        # render users page and pass in the context
+        return render(request, 'check_out/check_out.html')
