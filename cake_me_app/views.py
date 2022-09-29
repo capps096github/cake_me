@@ -457,3 +457,15 @@ def update_quantity(request, cake_id):
     return redirect('check_out')
 
 
+# send an email when someone clicks the cart button 
+@login_required
+def check_out(request):
+        email=EmailMessage(
+        'Thank you',
+        'Hello',
+        settings.EMAIL_HOST_USER,
+        ['cephasbrianz1@gmail.com']
+    )
+        email.fail_silently=False
+        email.send()
+        return redirect('check_out')
