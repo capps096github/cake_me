@@ -5,8 +5,11 @@ This is a website for a cake shop. It is built using Django and Python.
 ## Members
 
 - MUGISA BRIAN [@capps096github](https://github.com/capps096github) or [@xephas-official](https://github.com/xephas-official)
-
-
+- Niwahereza Simon Desire -20/U/7803/PS
+- Niyongabo Olga Queenthia -20/X/23105/PS
+- Twahirwa Edward -20/U/2075/EVE
+- Sseginda Fred -20/U/7813/PS
+- Nakiyemba Zaitun -20/U/7760/PS
 
 ## Installation
 
