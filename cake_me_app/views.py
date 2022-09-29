@@ -38,11 +38,16 @@ def shop(request):
         # get all the cakes
         cake_items = Cake.objects.all()
 
+    # count the number of cakes
+    cake_count = cake_items.count()
+
+    # {{cake_count}} Cakes
+
     # create a title variable from the selected category i.e all, sponge, red-velvet, butter, biscuit
     if not category or category == "all":
-        title = "All"
+        title = f"All {cake_count} Cakes"
     else:
-        title = category.title()
+        title = f"◉ {cake_count} {category.title()} Cakes"
 
     # get the current user id
     user_id = request.user.id
@@ -70,10 +75,12 @@ def shop(request):
             "category": category,
             "title": title,
             "cake_ids": cake_ids,
+            "cake_count": cake_count
         } if cake_ids else {
             "cake_items": cake_items,
             "category": category,
             "title": title,
+            "cake_count": cake_count
         }
 
     else:
@@ -81,6 +88,7 @@ def shop(request):
             "cake_items": cake_items,
             "category": category,
             "title": title,
+            "cake_count": cake_count
         }
 
     # Render the HTML template index.html with the data in the context variable
@@ -343,6 +351,8 @@ def add_cakes(request):
         return render(request, 'shop/add_cakes.html')
 
 # delete cakes and return to the shop screen
+
+
 @login_required
 def delete_cake(request, cake_id):
     # get the cake object
@@ -356,6 +366,8 @@ def delete_cake(request, cake_id):
 
 # users
 # To see this,you must have logged in and you must be a superuser
+
+
 @login_required
 def users(request):
     # is superuser
@@ -366,9 +378,13 @@ def users(request):
         # get users from database
         cakeme_users = User.objects.all()
 
+        # count the number of users
+        number_of_users = cakeme_users.count()
+
         # passing cakeme_users to the context
         context = {
             'cakeme_users': cakeme_users,
+            'number_of_users': number_of_users,
         }
 
         # render users page and pass in the context
@@ -410,7 +426,6 @@ def add_user(request):
         return redirect('add_user')
     else:
         return render(request, 'users/add_users.html')
-
 
 
 # capture the quantity of cake in the cart and update the quantity to calculate the total cost of the cakes basing on the unit cost of each cake
