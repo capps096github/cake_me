@@ -1,5 +1,5 @@
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.template import loader
 from django.urls import resolve
@@ -410,3 +410,23 @@ def add_user(request):
         return redirect('add_user')
     else:
         return render(request, 'users/add_users.html')
+
+
+
+# capture the quantity of cake in the cart and update the quantity to calculate the total cost of the cakes basing on the unit cost of each cake
+@login_required
+def update_quantity(request, cake_id):
+    # get the cake object
+    cake = Cake.objects.get(id=cake_id)
+
+    # get the quantity from the request
+    quantity = request.POST['quantity']
+
+    # update the quantity
+    cake.quantity = quantity
+
+    # save the cake
+    cake.save()
+
+    # redirect to the cart page
+    return redirect('check_out')

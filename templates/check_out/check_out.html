@@ -51,13 +51,18 @@
                   <div class="flex items-center mt-4">
                     <div class="flex-grow">
                       <div>
+                        <form method="POST">
                         <!--Quantity-->
                         <label for="quantity-lizarb" class="block mb-2 text-sm font-medium">
                           Quantity
                         </label>
-                        <input type="number" max="100" min="1" id="quantity-lizarb" name="quantity"
+
+                        <!--capture the cake quantity to database-->
+                      
+                        <input type="number" max="100" min="1" id="quantity" name="quantity"
                           class="w-full px-2 py-1 bg-white border rounded focus:outline-none focus:border-gray-500"
                           value="1">
+                          </form>
                       </div>
                     </div>
                     <div class="flex items-center justify-center flex-shrink-0 w-10">
