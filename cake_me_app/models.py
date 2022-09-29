@@ -50,7 +50,7 @@ class CakeOrderItem(models.Model):
         help_text='Enter the quantity of the cake', default=0)
 
     def __str__(self):
-        return f"Cake ID: {self.cake} - Quantity: {self.quantity} "
+        return f" * Cake: {self.cake.__str__()} - Quantity: {self.quantity}\n"
 
 
 """ Order Model with
@@ -81,7 +81,9 @@ class Order(models.Model):
     # get total price
     def get_total_price(self):
         return self.total_cost
-        
 
     def __str__(self):
-        return f"User: {self.user.username} - Total Cost: {self.total_cost} - Date: {self.date}"
+        # get strings of all the items in the order
+        items = [item.__str__() for item in self.items.all()]
+
+        return f"- Total Cost: {self.total_cost}\n - Date: {self.date}\n    - Items: \n{items} "

@@ -1,4 +1,4 @@
-from django.core.mail import EmailMessage
+from django.core.mail import send_mail
 from django.conf import settings
 from django.db.models import Q
 from django.http import HttpResponse
@@ -432,15 +432,37 @@ def add_user(request):
 # send an email when someone clicks the cart button
 @login_required
 def send_email(request):
-    email = EmailMessage(
-        'Thank you',
-        'Hello',
-        settings.EMAIL_HOST_USER,
-        ['cephasbrianz1@gmail.com']
-    )
-    email.fail_silently = False
-    email.send()
-    return redirect('check_out')
+    # get the current user
+    user = User.objects.get(id=request.user.id)
+
+    # get the orders of the current user in the database if it exists
+    order = Order.objects.get(user=user)
+
+    # convert order to string for emailing
+    order_string = order.__str__()
+
+    # order id
+    order_id = order.id
+
+    # order text
+    order_text = f"Your Order is: \n Order ID #{order_id}\n Order Details:\n{order_string}"
+
+    # compose the email
+    subject = f'Your Order #{order_id} from CakeMe'
+    message = '\nThank you for your order from CakeMe.\n\n Your order is: ' + order_string
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = [user.email, ]
+
+    # send the email
+    send_mail(subject, message, email_from, recipient_list)
+
+    # context with email sent to true
+    context = {
+        'email_sent': True,
+    }
+
+    # render users page and pass in the context
+    return render(request, 'check_out/check_out.html', context=context)
 
 
 # check out
@@ -487,5 +509,6 @@ def check_out(request):
         return render(request, 'check_out/check_out.html', context=context)
 
     else:
+
         # render users page and pass in the context
         return render(request, 'check_out/check_out.html')

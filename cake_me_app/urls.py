@@ -41,6 +41,9 @@ urlpatterns = [
     # check_out
     path("check_out", views.check_out, name="check_out"),
 
+    # send email
+    path("send_email", views.send_email, name="send_email"),
+
     # update_quantity in cart
     path("update_quantity/<int:item_id>/",
          views.update_quantity, name="update_quantity"),
