@@ -1,3 +1,6 @@
+from django.core.mail import EmailMessage
+from django import template
+from django.conf import settings
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
@@ -5,6 +8,8 @@ from django.template import loader
 from django.urls import resolve
 from django.contrib.auth import login
 from django.contrib.auth.models import User
+
+from django.core.mail import send_mail
 
 from .models import Cake
 
@@ -319,10 +324,13 @@ def profile(request):
         return render(request, 'profile/profile.html')
 
 
-# check_out
-@login_required
-def check_out(request):
-    return render(request, 'check_out/check_out.html')
+
+    
+    
+    
+    
+    
+
 
 
 @login_required
@@ -337,6 +345,7 @@ def add_cakes(request):
         # create a new cake
         Cake(name=cake_name, image_url=image_url, description=description,
              price=price, category=category).save()
+        
 
         return redirect('add_cakes')
     else:
@@ -350,6 +359,7 @@ def delete_cake(request, cake_id):
 
     # delete the cake
     cake.delete()
+    
 
     # redirect to the shop page
     return redirect('shop')
@@ -430,3 +440,5 @@ def update_quantity(request, cake_id):
 
     # redirect to the cart page
     return redirect('check_out')
+
+
