@@ -31,7 +31,7 @@ This is a website for a cake shop. It is built using Django and Python.
 
 ## <u>Screenshots</u>
 
-This contains the Web Interface of the Kindercare Learning Platform (KLP) with code written in `Python`, `Django`, `TailwindCSS`, `JavaScript`
+This contains the Web Interface of the CakeMe Website with code written in `Python`, `Django`, `TailwindCSS`, `JavaScript`
 
   <!-- Table of title and image on the right -->
 
